@@ -4,6 +4,7 @@ import cz.nevesnican.nkm.patient.entity.TestEntity;
 import cz.nevesnican.nkm.patient.service.repository.TestEntityRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,16 +14,22 @@ public class TestController {
 
     private final TestEntityRepositoryService tt;
 
-    @RequestMapping("/test1")
+    @RequestMapping(value = "/test1", method = RequestMethod.GET)
     public String test1() {
         tt.addTestEntity();
         return "ok";
     }
 
-    @RequestMapping("/test2")
-    public String test2() {
+    @RequestMapping(value = "/test2", method = RequestMethod.GET)
+    public List<TestEntity> test2() {
         List<TestEntity> x = tt.getTestEntities();
-        return Long.toString(x.size());
+        return x;
+    }
+
+    @RequestMapping(value = "/test3", method = RequestMethod.GET)
+    public TestEntity test3() {
+        List<TestEntity> x = tt.getTestEntities();
+        return x.get(0);
     }
 
     @Autowired

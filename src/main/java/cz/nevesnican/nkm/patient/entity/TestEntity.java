@@ -1,7 +1,5 @@
 package cz.nevesnican.nkm.patient.entity;
 
-
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

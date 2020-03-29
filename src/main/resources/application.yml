@@ -1,7 +1,10 @@
+server:
+  port: 9857
+
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
   datasource:
@@ -24,5 +27,5 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
-    instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:9635}}
+    instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
 
