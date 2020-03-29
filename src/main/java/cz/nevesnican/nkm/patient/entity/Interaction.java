@@ -1,13 +1,11 @@
 package cz.nevesnican.nkm.patient.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Interaction implements NKMPatientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +16,13 @@ public class Interaction implements NKMPatientEntity {
 
     private String note;
 
+    @ElementCollection
     private List<Long> diagnosis = new ArrayList<>();
 
+    @ElementCollection
     private List<Long> symptoms = new ArrayList<>();
 
+    @ElementCollection
     private List<Long> prescriptions = new ArrayList<>();
 
     @NotNull
