@@ -1,0 +1,41 @@
+version: '3.1'
+
+services:
+  patient-svc:
+    build: .
+    environment:
+      EUREKA_HOST: localhost
+      EUREKA_PORT: 8761
+      PG_HOST: postgres
+      PG_USER: pguser
+      PG_PASS: pass
+      PG_PORT: 5432
+      PG_DB: pguser
+    ports:
+      - 8080:8080
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres:12.2
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: pguser
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:

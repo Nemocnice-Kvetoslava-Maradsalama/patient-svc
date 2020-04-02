@@ -1,5 +1,5 @@
 server:
-  port: 9857
+  port: ${APP_PORT:8080}
 
 spring:
   jpa:
@@ -11,9 +11,9 @@ spring:
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 10
-    url: jdbc:postgresql://localhost:5432/patient
-    username: postgres
-    password:
+    url: jdbc:postgresql://${PG_HOST:localhost}:${PG_PORT:5432}/${PG_DB:patient}
+    username: ${PG_USER:postgres}
+    password: ${PG_PASS}
     driver-class-name: org.postgresql.Driver
 
   application:
@@ -24,7 +24,7 @@ eureka:
     enabled: true
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_URI:http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka}
   instance:
     preferIpAddress: true
     instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
