@@ -6,7 +6,7 @@ ENV PG_HOST=localhost
 ENV PG_PORT=5432
 ENV PG_DB=patient
 ENV PG_USER=postgres
-ENV PG_PASS=
+ENV PG_PASS=pass
 
 ENV EUREKA_HOST=localhost
 ENV EUREKA_PORT=8761

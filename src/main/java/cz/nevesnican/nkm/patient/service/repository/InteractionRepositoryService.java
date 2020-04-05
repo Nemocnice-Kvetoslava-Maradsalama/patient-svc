@@ -8,6 +8,7 @@ import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -35,15 +36,18 @@ public class InteractionRepositoryService {
         return i;
     }
 
+    @Transactional
     public Long addInteraction(Interaction i) {
         interactionDAO.add(i);
         return i.getId();
     }
 
+    @Transactional
     public void updateInteraction(Interaction i) {
         interactionDAO.update(i);
     }
 
+    @Transactional
     public void deleteInteraction(Long id) {
         Interaction i = interactionDAO.getReference(id);
 

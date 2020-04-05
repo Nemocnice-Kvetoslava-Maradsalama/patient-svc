@@ -5,7 +5,6 @@ import cz.nevesnican.nkm.patient.entity.NKMPatientEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,7 +22,6 @@ public abstract class BaseDAO<T extends NKMPatientEntity, I> implements DAO<T, I
     }
 
     @Override
-    @Transactional
     public void add(T item) {
         if (item == null) {
             LOG.warning("Attempt was made to persist a null item");
@@ -34,7 +32,6 @@ public abstract class BaseDAO<T extends NKMPatientEntity, I> implements DAO<T, I
     }
 
     @Override
-    @Transactional
     public void update(T item) {
         if (item == null) {
             LOG.warning("Attempt was made to update a null item");
@@ -45,7 +42,6 @@ public abstract class BaseDAO<T extends NKMPatientEntity, I> implements DAO<T, I
     }
 
     @Override
-    @Transactional
     public void remove(T item) {
         if (item == null) {
             LOG.warning("Attempt was made to delete a null item");
