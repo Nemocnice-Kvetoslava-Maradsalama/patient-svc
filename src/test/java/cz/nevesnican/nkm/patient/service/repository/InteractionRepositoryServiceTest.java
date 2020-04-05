@@ -30,15 +30,17 @@ public class InteractionRepositoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        if (patientService.getPatientCount() == 0) {
-            Patient p1 = createTestPatient();
-            Patient p2 = createTestPatient();
-            testPatient1ID = patientService.createPatient(p1);
-            testPatient2ID = patientService.createPatient(p2);
-        }
+        synchronized (InteractionRepositoryServiceTest.class) {
+            if (patientService.getPatientCount() == 0) {
+                Patient p1 = createTestPatient();
+                Patient p2 = createTestPatient();
+                testPatient1ID = patientService.createPatient(p1);
+                testPatient2ID = patientService.createPatient(p2);
+            }
 
-        testPatient1 = patientService.getPatient(testPatient1ID);
-        testPatient2 = patientService.getPatient(testPatient2ID);
+            testPatient1 = patientService.getPatient(testPatient1ID);
+            testPatient2 = patientService.getPatient(testPatient2ID);
+        }
     }
 
     @Test
