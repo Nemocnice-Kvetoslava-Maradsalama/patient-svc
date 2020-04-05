@@ -3,6 +3,7 @@ package cz.nevesnican.nkm.patient.dao;
 import cz.nevesnican.nkm.patient.entity.NKMPatientEntity;
 
 import javax.persistence.EntityManager;
+import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -57,12 +58,18 @@ public abstract class BaseDAO<T extends NKMPatientEntity, I> implements DAO<T, I
     }
 
     @Override
-    public List<T> getCountItems(int limit, int offset) {
-        Query q = em.createQuery("SELECT t FROM " + type.getSimpleName() + " t", type);
+    public List<T> getCountItems(int limit, int offset, String orderBy) {
+        if (orderBy == null) {
+            orderBy = getDefaultOrdering();
+        }
+
+        Query q = em.createQuery("SELECT t FROM " + type.getSimpleName() + " t ORDER BY " + orderBy, type);
         q.setFirstResult(offset);
         q.setMaxResults(limit);
         return q.getResultList();
     }
+
+    protected abstract String getDefaultOrdering();
 
     @Override
     public long itemCount() {

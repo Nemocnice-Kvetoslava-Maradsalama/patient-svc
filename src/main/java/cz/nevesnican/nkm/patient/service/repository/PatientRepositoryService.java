@@ -6,6 +6,7 @@ import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.OrderBy;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class PatientRepositoryService {
     }
 
     public List<Patient> getPatients(int limit, int offset) {
-        return dao.getCountItems(limit, offset);
+        return dao.getCountItems(limit, offset, null);
     }
 
     public Patient getPatient(Long id) {
@@ -51,6 +52,10 @@ public class PatientRepositoryService {
         }
 
         dao.remove(p);
+    }
+
+    public long getPatientCount() {
+        return dao.itemCount();
     }
 
     @Autowired

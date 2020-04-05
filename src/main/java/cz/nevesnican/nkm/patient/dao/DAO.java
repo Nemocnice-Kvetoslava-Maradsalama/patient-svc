@@ -17,7 +17,7 @@ public interface DAO<T extends NKMPatientEntity, I> {
 
     List<T> getAll();
 
-    List<T> getCountItems(int limit, int offset);
+    List<T> getCountItems(int limit, int offset, String orderBy);
 
     long itemCount();
 }

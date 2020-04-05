@@ -5,6 +5,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class PatientDAO extends BaseDAO<Patient, Long> {
+
+    @Override
+    protected String getDefaultOrdering() {
+        return "id ASC";
+    }
+
     public PatientDAO() {
         super(Patient.class);
     }

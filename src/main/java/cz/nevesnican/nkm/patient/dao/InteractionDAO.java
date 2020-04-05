@@ -22,6 +22,11 @@ public class InteractionDAO extends BaseDAO<Interaction, Long> {
         return em.createQuery(q).getResultList();
     }
 
+    @Override
+    protected String getDefaultOrdering() {
+        return "id ASC";
+    }
+
     public InteractionDAO() {
         super(Interaction.class);
     }
