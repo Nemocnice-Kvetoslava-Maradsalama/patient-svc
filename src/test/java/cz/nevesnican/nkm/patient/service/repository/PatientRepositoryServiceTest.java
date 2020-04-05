@@ -10,28 +10,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static cz.nevesnican.nkm.patient.service.repository.TestUtil.createTestPatient;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class PatientRepositoryServiceTest {
-
-    private final static Random random = ThreadLocalRandom.current();
-
+public class PatientRepositoryServiceTest {
     @Autowired
     private PatientRepositoryService service;
-
-    private Patient createTestPatient(String firstName, String lastName) {
-        Patient p = new Patient();
-        p.setFirstName(firstName);
-        p.setLastName(lastName);
-        return p;
-    }
-
-    private Patient createTestPatient() {
-        String firstName = Integer.toString(random.nextInt(500000)+10000);
-        String lastName = Integer.toString(random.nextInt(500000)+10000);
-        return createTestPatient(firstName, lastName);
-    }
 
     @Test
     void testItemCount() {

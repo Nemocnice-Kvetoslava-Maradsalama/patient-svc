@@ -17,7 +17,7 @@ public class InteractionDAO extends BaseDAO<Interaction, Long> {
         CriteriaQuery<Interaction> q = cb.createQuery(type);
         Root<Interaction> r = q.from(type);
 
-        q.select(r).where(cb.equal(r.get("patient"), p));
+        q.select(r).where(cb.equal(r.get("patient"), p)).orderBy(cb.asc(r.get("id")));
 
         return em.createQuery(q).getResultList();
     }
