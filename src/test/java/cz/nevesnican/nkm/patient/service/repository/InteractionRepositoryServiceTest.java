@@ -3,6 +3,7 @@ package cz.nevesnican.nkm.patient.service.repository;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.entity.Patient;
 import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +32,19 @@ public class InteractionRepositoryServiceTest {
     @BeforeEach
     void setUp() {
         synchronized (InteractionRepositoryServiceTest.class) {
-            if (patientService.getPatientCount() == 0) {
+            if (testPatient1ID == null) {
                 Patient p1 = createTestPatient();
-                Patient p2 = createTestPatient();
                 testPatient1ID = patientService.createPatient(p1);
-                testPatient2ID = patientService.createPatient(p2);
             }
 
-            testPatient1 = patientService.getPatient(testPatient1ID);
-            testPatient2 = patientService.getPatient(testPatient2ID);
+            if (testPatient2ID == null) {
+                Patient p2 = createTestPatient();
+                testPatient2ID = patientService.createPatient(p2);
+            }
         }
+
+        testPatient1 = patientService.getPatient(testPatient1ID);
+        testPatient2 = patientService.getPatient(testPatient2ID);
     }
 
     @Test
