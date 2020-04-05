@@ -3,7 +3,6 @@ package cz.nevesnican.nkm.patient.rest;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.exception.InvalidRequestException;
 import cz.nevesnican.nkm.patient.service.repository.InteractionRepositoryService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;

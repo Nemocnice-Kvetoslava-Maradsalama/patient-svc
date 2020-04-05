@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Interaction implements NKMPatientEntity {
@@ -83,5 +84,22 @@ public class Interaction implements NKMPatientEntity {
 
     public void setDoctor(Long doctor) {
         this.doctor = doctor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Interaction that = (Interaction) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        if (id == null) {
+            return super.hashCode();
+        }
+
+        return Objects.hash(id);
     }
 }

@@ -3,7 +3,6 @@ package cz.nevesnican.nkm.patient.service.repository;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.entity.Patient;
 import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,8 @@ import java.util.List;
 
 import static cz.nevesnican.nkm.patient.service.repository.TestUtil.createTestInteraction;
 import static cz.nevesnican.nkm.patient.service.repository.TestUtil.createTestPatient;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class InteractionRepositoryServiceTest {

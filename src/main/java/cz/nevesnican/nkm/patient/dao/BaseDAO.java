@@ -3,7 +3,6 @@ package cz.nevesnican.nkm.patient.dao;
 import cz.nevesnican.nkm.patient.entity.NKMPatientEntity;
 
 import javax.persistence.EntityManager;
-import javax.persistence.OrderBy;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
