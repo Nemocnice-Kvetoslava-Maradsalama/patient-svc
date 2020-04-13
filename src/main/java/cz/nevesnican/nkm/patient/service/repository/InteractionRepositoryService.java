@@ -16,6 +16,7 @@ public class InteractionRepositoryService {
     private final InteractionDAO interactionDAO;
     private final PatientDAO patientDAO;
 
+    @Transactional
     public List<Interaction> getPatientInteractions(Long patientId) {
         Patient p = patientDAO.getReference(patientId);
 
@@ -26,6 +27,7 @@ public class InteractionRepositoryService {
         return interactionDAO.getPatientInteractions(p);
     }
 
+    @Transactional
     public Interaction getInteraction(Long id) {
         Interaction i = interactionDAO.getById(id);
 
@@ -56,6 +58,16 @@ public class InteractionRepositoryService {
         }
 
         interactionDAO.remove(i);
+    }
+
+    @Transactional
+    public Long getDoctorInteractionCount(Long doctorId) {
+        return interactionDAO.getDoctorInteractionCount(doctorId);
+    }
+
+    @Transactional
+    public Long getDiseaseDiagnoseCount(Long diseaseId) {
+        return interactionDAO.getDiseaseDiagnoseCount(diseaseId);
     }
 
     @Autowired

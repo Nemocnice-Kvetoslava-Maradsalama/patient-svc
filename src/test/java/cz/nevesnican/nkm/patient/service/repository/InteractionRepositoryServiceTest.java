@@ -113,4 +113,61 @@ public class InteractionRepositoryServiceTest {
         service.updateInteraction(_i);
         assertEquals("test update", service.getInteraction(id).getNote());
     }
+
+    @Test
+    void testDoctorInteractionCount() {
+        Long testDoctor1 = 5L;
+        Long testDoctor2 = 6L;
+        Long initialCount1 = service.getDoctorInteractionCount(testDoctor1);
+        Long initialCount2 = service.getDoctorInteractionCount(testDoctor2);
+
+        Interaction i1 = createTestInteraction(testPatient1);
+        Interaction i2 = createTestInteraction(testPatient1);
+        Interaction i3 = createTestInteraction(testPatient2);
+        i1.setDoctor(testDoctor1);
+        i2.setDoctor(testDoctor1);
+        i3.setDoctor(testDoctor2);
+        Long id1 = service.addInteraction(i1);
+        Long id2 = service.addInteraction(i2);
+        Long id3 = service.addInteraction(i3);
+
+        assertEquals(initialCount1+2, service.getDoctorInteractionCount(testDoctor1));
+        assertEquals(initialCount2+1, service.getDoctorInteractionCount(testDoctor2));
+
+        service.deleteInteraction(id1);
+
+        assertEquals(initialCount1+1, service.getDoctorInteractionCount(testDoctor1));
+        assertEquals(initialCount2+1, service.getDoctorInteractionCount(testDoctor2));
+    }
+
+    @Test
+    void testDiseaseDiagnoseCount() {
+        Long testDisease1 = 5L;
+        Long testDisease2 = 6L;
+        Long initialCount1 = service.getDiseaseDiagnoseCount(testDisease1);
+        Long initialCount2 = service.getDiseaseDiagnoseCount(testDisease2);
+
+        Interaction i1 = createTestInteraction(testPatient1);
+        Interaction i2 = createTestInteraction(testPatient1);
+        Interaction i3 = createTestInteraction(testPatient2);
+        Interaction i4 = createTestInteraction(testPatient2);
+        i1.getDiagnosis().add(testDisease1);
+        i2.getDiagnosis().add(testDisease2);
+        i3.getDiagnosis().add(testDisease2);
+        i4.getDiagnosis().add(testDisease1);
+        i4.getDiagnosis().add(testDisease2);
+        Long id1 = service.addInteraction(i1);
+        Long id2 = service.addInteraction(i2);
+        Long id3 = service.addInteraction(i3);
+        Long id4 = service.addInteraction(i4);
+
+        assertEquals(initialCount1+2, service.getDiseaseDiagnoseCount(testDisease1));
+        assertEquals(initialCount2+3, service.getDiseaseDiagnoseCount(testDisease2));
+
+        service.deleteInteraction(id1);
+        service.deleteInteraction(id4);
+
+        assertEquals(initialCount1, service.getDiseaseDiagnoseCount(testDisease1));
+        assertEquals(initialCount2+2, service.getDiseaseDiagnoseCount(testDisease2));
+    }
 }

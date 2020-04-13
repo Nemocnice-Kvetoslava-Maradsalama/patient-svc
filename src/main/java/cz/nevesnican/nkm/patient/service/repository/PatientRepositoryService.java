@@ -13,14 +13,17 @@ import java.util.List;
 public class PatientRepositoryService {
     private final PatientDAO dao;
 
+    @Transactional
     public List<Patient> getPatients() {
         return dao.getAll();
     }
 
+    @Transactional
     public List<Patient> getPatients(int limit, int offset) {
         return dao.getCountItems(limit, offset, null);
     }
 
+    @Transactional
     public Patient getPatient(Long id) {
         Patient p = dao.getById(id);
 
@@ -53,6 +56,7 @@ public class PatientRepositoryService {
         dao.remove(p);
     }
 
+    @Transactional
     public long getPatientCount() {
         return dao.itemCount();
     }

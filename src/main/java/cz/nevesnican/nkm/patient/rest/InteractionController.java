@@ -53,6 +53,26 @@ public class InteractionController {
         interactionService.deleteInteraction(id);
     }
 
+    @ApiOperation("Returns a number of interactions done by a specified doctor")
+    @RequestMapping(value="/doctorInteractionCount", method = RequestMethod.GET)
+    public Long getDoctorInteractionCount(@RequestParam @ApiParam(value = "doctor id", required = true, example = "1") Long doctorId) {
+        if (doctorId == null) {
+            throw new InvalidRequestException();
+        }
+
+        return interactionService.getDoctorInteractionCount(doctorId);
+    }
+
+    @ApiOperation("Returns a number of times a specified disease has been diagnosed")
+    @RequestMapping(value="/diseaseDiagnoseCount", method = RequestMethod.GET)
+    public Long getDiagnoseCount(@RequestParam @ApiParam(value = "disease id", required = true, example = "1") Long diseaseId) {
+        if (diseaseId == null) {
+            throw new InvalidRequestException();
+        }
+
+        return interactionService.getDiseaseDiagnoseCount(diseaseId);
+    }
+
     @Autowired
     public InteractionController(InteractionRepositoryService interactionService) {
         this.interactionService = interactionService;
