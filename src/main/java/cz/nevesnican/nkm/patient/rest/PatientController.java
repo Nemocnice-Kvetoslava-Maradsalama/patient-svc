@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/patient")
 public class PatientController {
+    private final static Logger LOG = Logger.getLogger(PatientController.class.getName());
+
     private final PatientRepositoryService patientService;
     private final InteractionRepositoryService interactionService;
 
@@ -24,6 +27,8 @@ public class PatientController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<Patient> getPatients(@RequestParam(required = false) @ApiParam(value = "How many result to include (empty for all results)", example = "10") Integer limit,
                                      @RequestParam(required = false) @ApiParam(value = "How many results to skip (empty for all results)", example = "0") Integer offset) {
+        LOG.info("serving getPatients");
+
         if (limit != null && offset != null) {
             return patientService.getPatients(limit, offset);
         }
@@ -34,6 +39,8 @@ public class PatientController {
     @ApiOperation("Returns a patient")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Patient getPatient(@PathVariable @ApiParam(value = "patient id", required = true, example = "1") Long id) {
+        LOG.info("serving getPatient");
+
         if (id == null) {
             throw new InvalidRequestException();
         }
@@ -44,6 +51,8 @@ public class PatientController {
     @ApiOperation("Creates a patient")
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long createPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p) {
+        LOG.info("serving createPatient");
+
         if (p == null || p.getId() != null) {
             throw new InvalidRequestException();
         }
@@ -54,6 +63,8 @@ public class PatientController {
     @ApiOperation("Edits a patient")
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public void editPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p) {
+        LOG.info("serving editPatient");
+
         if (p == null || p.getId() == null) {
             throw new InvalidRequestException();
         }
@@ -64,6 +75,8 @@ public class PatientController {
     @ApiOperation("Deletes a patient")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deletePatient(@PathVariable @ApiParam(value = "patient id", required = true, example = "1") Long id) {
+        LOG.info("serving deletePatient");
+
         if (id == null) {
             throw new InvalidRequestException();
         }
@@ -74,6 +87,8 @@ public class PatientController {
     @ApiOperation("Returns a list of patient interactions")
     @RequestMapping(value="{id}/interactions", method = RequestMethod.GET)
     public List<InteractionListDTO> getPatientInteractions(@PathVariable @ApiParam(value = "patient id", required = true, example = "1") Long id) {
+        LOG.info("serving getPatientInteractions");
+
         if (id == null) {
             throw new InvalidRequestException();
         }

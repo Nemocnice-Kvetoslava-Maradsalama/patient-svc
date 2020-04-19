@@ -15,6 +15,7 @@ services:
       - 8080:8080
     networks:
       - postgres
+      - nkm
     depends_on:
       - postgres
 
@@ -28,12 +29,13 @@ services:
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
-    ports:
-      - 5432:5432
     networks:
       - postgres
 
 networks:
+  nkm:
+    external:
+      name: nemocnice-network
   postgres:
     driver: bridge
 

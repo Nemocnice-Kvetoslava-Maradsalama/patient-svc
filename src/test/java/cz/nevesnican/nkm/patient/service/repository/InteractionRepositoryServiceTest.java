@@ -3,12 +3,26 @@ package cz.nevesnican.nkm.patient.service.repository;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.entity.Patient;
 import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
+import cz.nevesnican.nkm.patient.external.client.DiseaseClient;
+import cz.nevesnican.nkm.patient.external.model.Disease;
+import cz.nevesnican.nkm.patient.external.model.Symptom;
+import cz.nevesnican.nkm.patient.external.model.SymptomsDTO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.util.Collections;
 import java.util.List;
 
 import static cz.nevesnican.nkm.patient.service.repository.TestUtil.createTestInteraction;
@@ -28,6 +42,30 @@ public class InteractionRepositoryServiceTest {
 
     private Patient testPatient1;
     private Patient testPatient2;
+
+    //@Configuration
+    //@EnableAutoConfiguration
+    /*static class ContextConfiguration {
+        @Bean
+        public DiseaseClient getDc() {
+            return new DiseaseClient() {
+                @Override
+                public List<Disease> diagnose(SymptomsDTO symptoms) {
+                    return Collections.emptyList();
+                }
+
+                @Override
+                public Disease getDisease(Long id) {
+                    return new Disease();
+                }
+
+                @Override
+                public Symptom getSymptom(Long id) {
+                    return new Symptom();
+                }
+            };
+        }
+    }*/
 
     @BeforeEach
     void setUp() {

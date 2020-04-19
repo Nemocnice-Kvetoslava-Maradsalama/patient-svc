@@ -5,16 +5,54 @@ import cz.nevesnican.nkm.patient.dao.PatientDAO;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.entity.Patient;
 import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
+import cz.nevesnican.nkm.patient.exception.NotAuthorizedException;
+import cz.nevesnican.nkm.patient.external.client.DiseaseClient;
+import cz.nevesnican.nkm.patient.external.client.PersonnelClient;
+import cz.nevesnican.nkm.patient.external.model.Disease;
+import cz.nevesnican.nkm.patient.external.model.Symptom;
+import cz.nevesnican.nkm.patient.external.model.SymptomsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class InteractionRepositoryService {
+    private final PersonnelClient personnelClient;
+    private final DiseaseClient diseaseClient;
     private final InteractionDAO interactionDAO;
     private final PatientDAO patientDAO;
+
+    private void diagnose(Interaction i) {
+        SymptomsDTO symptoms = new SymptomsDTO();
+        symptoms.setSymptoms(new ArrayList<>());
+        for (Long symptomId : i.getSymptoms()) {
+            Symptom s = new Symptom();
+            s.setId(symptomId);
+            symptoms.getSymptoms().add(s);
+        }
+
+        List<Disease> diagnosis = diseaseClient.diagnose(symptoms);
+
+        if (!diagnosis.isEmpty()) {
+            i.getDiagnosis().clear();
+            for (Disease d : diagnosis) {
+                i.getDiagnosis().add(d.getId());
+            }
+        }
+    }
+
+    private void prescribeDrugs(Interaction i) {
+        // todo
+        //i.getPrescriptions().clear();
+    }
+
+    private boolean validateDoctor() {
+        // todo
+        return true;
+    }
 
     @Transactional
     public List<Interaction> getPatientInteractions(Long patientId) {
@@ -40,12 +78,25 @@ public class InteractionRepositoryService {
 
     @Transactional
     public Long addInteraction(Interaction i) {
+
+        if (!validateDoctor())
+            throw new NotAuthorizedException();
+
+        diagnose(i);
+        prescribeDrugs(i);
+
         interactionDAO.add(i);
         return i.getId();
     }
 
     @Transactional
     public void updateInteraction(Interaction i) {
+        if (!validateDoctor())
+            throw new NotAuthorizedException();
+
+        diagnose(i);
+        prescribeDrugs(i);
+
         interactionDAO.update(i);
     }
 
@@ -71,7 +122,12 @@ public class InteractionRepositoryService {
     }
 
     @Autowired
-    public InteractionRepositoryService(InteractionDAO interactionDAO, PatientDAO patientDAO) {
+    public InteractionRepositoryService(PersonnelClient personnelClient,
+                                        DiseaseClient diseaseClient,
+                                        InteractionDAO interactionDAO,
+                                        PatientDAO patientDAO) {
+        this.personnelClient = personnelClient;
+        this.diseaseClient = diseaseClient;
         this.interactionDAO = interactionDAO;
         this.patientDAO = patientDAO;
     }

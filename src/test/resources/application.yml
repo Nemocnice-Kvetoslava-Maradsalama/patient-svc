@@ -10,3 +10,11 @@ spring:
 
   application:
     name: patient-svc
+
+eureka:
+  client:
+    enabled: false
+
+feign:
+  hystrix:
+    enabled: true
