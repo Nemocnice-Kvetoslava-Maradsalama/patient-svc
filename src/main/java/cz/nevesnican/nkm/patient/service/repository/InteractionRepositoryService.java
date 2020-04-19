@@ -28,6 +28,7 @@ public class InteractionRepositoryService {
     private final PatientDAO patientDAO;
 
     private void diagnose(Interaction i) {
+        // todo improve
         SymptomsDTO symptoms = new SymptomsDTO();
         symptoms.setSymptoms(new ArrayList<>());
         for (Long symptomId : i.getSymptoms()) {

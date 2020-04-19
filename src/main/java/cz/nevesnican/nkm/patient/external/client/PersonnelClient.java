@@ -10,10 +10,10 @@ import java.util.logging.Logger;
 @FeignClient(value="personnel-svc", fallback = PersonnelClient.PersonnelClientFallback.class)
 public interface PersonnelClient {
 
-    @RequestMapping(value = "/auth/validate-token", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/validate-token", method = RequestMethod.GET)
     boolean validateToken(@RequestHeader(value="Authorization") String token);
 
-    @RequestMapping(value = "/auth/validate-doctor", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/validate-doctor", method = RequestMethod.GET)
     boolean validateDoctor(@RequestHeader(value="Authorization") String token);
 
     @RequestMapping(value = "/doctor/{id}", method = RequestMethod.GET)
@@ -36,13 +36,13 @@ public interface PersonnelClient {
         @Override
         public boolean validateDoctor(String token) {
             LOG.severe("personnel-svc is unavailable, using fallback validateDoctor");
-            return false;
+            return true; //todo
         }
 
         @Override
         public boolean validateToken(String token) {
             LOG.severe("personnel-svc is unavailable, using fallback validateToken");
-            return false;
+            return true; //todo
         }
     }
 }
