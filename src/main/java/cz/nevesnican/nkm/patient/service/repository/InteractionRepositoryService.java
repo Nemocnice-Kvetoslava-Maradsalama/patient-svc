@@ -7,10 +7,12 @@ import cz.nevesnican.nkm.patient.entity.Patient;
 import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
 import cz.nevesnican.nkm.patient.exception.NotAuthorizedException;
 import cz.nevesnican.nkm.patient.external.client.DiseaseClient;
+import cz.nevesnican.nkm.patient.external.client.DrugClient;
 import cz.nevesnican.nkm.patient.external.client.PersonnelClient;
 import cz.nevesnican.nkm.patient.external.model.Disease;
 import cz.nevesnican.nkm.patient.external.model.Symptom;
 import cz.nevesnican.nkm.patient.external.model.SymptomsDTO;
+import cz.nevesnican.nkm.patient.service.security.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,8 @@ import java.util.List;
 
 @Service
 public class InteractionRepositoryService {
-    private final PersonnelClient personnelClient;
     private final DiseaseClient diseaseClient;
+    private final DrugClient drugClient;
     private final InteractionDAO interactionDAO;
     private final PatientDAO patientDAO;
 
@@ -49,11 +51,6 @@ public class InteractionRepositoryService {
         //i.getPrescriptions().clear();
     }
 
-    private boolean validateDoctor() {
-        // todo
-        return true;
-    }
-
     @Transactional
     public List<Interaction> getPatientInteractions(Long patientId) {
         Patient p = patientDAO.getReference(patientId);
@@ -78,10 +75,6 @@ public class InteractionRepositoryService {
 
     @Transactional
     public Long addInteraction(Interaction i) {
-
-        if (!validateDoctor())
-            throw new NotAuthorizedException();
-
         diagnose(i);
         prescribeDrugs(i);
 
@@ -91,9 +84,6 @@ public class InteractionRepositoryService {
 
     @Transactional
     public void updateInteraction(Interaction i) {
-        if (!validateDoctor())
-            throw new NotAuthorizedException();
-
         diagnose(i);
         prescribeDrugs(i);
 
@@ -122,11 +112,11 @@ public class InteractionRepositoryService {
     }
 
     @Autowired
-    public InteractionRepositoryService(PersonnelClient personnelClient,
-                                        DiseaseClient diseaseClient,
+    public InteractionRepositoryService(DiseaseClient diseaseClient,
+                                        DrugClient drugClient,
                                         InteractionDAO interactionDAO,
                                         PatientDAO patientDAO) {
-        this.personnelClient = personnelClient;
+        this.drugClient = drugClient;
         this.diseaseClient = diseaseClient;
         this.interactionDAO = interactionDAO;
         this.patientDAO = patientDAO;
