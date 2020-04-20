@@ -40,4 +40,11 @@ public class Symptom {
     public void setDiseaseSymptoms(List<Disease> diseaseSymptoms) {
         this.diseases = diseaseSymptoms;
     }
+
+    public Symptom() {
+    }
+
+    public Symptom(Long id) {
+        this.id = id;
+    }
 }

@@ -90,7 +90,7 @@ public class InteractionRepositoryServiceTest {
         int initialCount = service.getPatientInteractions(testPatient1.getId()).size();
 
         Interaction i = createTestInteraction(testPatient1);
-        Long id = service.addInteraction(i);
+        Long id = service.addInteraction(i, "");
         Interaction _i = service.getInteraction(id);
 
         assertEquals(i.getNote(), _i.getNote());
@@ -110,11 +110,11 @@ public class InteractionRepositoryServiceTest {
         Interaction i4 = createTestInteraction(testPatient2);
         Interaction i5 = createTestInteraction(testPatient2);
 
-        service.addInteraction(i1);
-        service.addInteraction(i2);
-        service.addInteraction(i3);
-        service.addInteraction(i4);
-        service.addInteraction(i5);
+        service.addInteraction(i1, "");
+        service.addInteraction(i2, "");
+        service.addInteraction(i3, "");
+        service.addInteraction(i4, "");
+        service.addInteraction(i5, "");
 
         p1Interactions = service.getPatientInteractions(testPatient1.getId());
         p2Interactions = service.getPatientInteractions(testPatient2.getId());
@@ -128,7 +128,7 @@ public class InteractionRepositoryServiceTest {
         int initialCount = service.getPatientInteractions(testPatient1.getId()).size();
 
         Interaction i = createTestInteraction(testPatient1);
-        Long id = service.addInteraction(i);
+        Long id = service.addInteraction(i, "");
 
         assertEquals(i.getNote(), service.getInteraction(id).getNote());
         assertEquals(initialCount+1, service.getPatientInteractions(testPatient1.getId()).size());
@@ -141,14 +141,14 @@ public class InteractionRepositoryServiceTest {
     @Test
     void testUpdateInteraction() {
         Interaction i = createTestInteraction(testPatient1);
-        Long id = service.addInteraction(i);
+        Long id = service.addInteraction(i, "");
         assertEquals(i.getNote(), service.getInteraction(id).getNote());
 
         Interaction _i = createTestInteraction(testPatient1);
         _i.setNote("test update");
         _i.setId(id);
 
-        service.updateInteraction(_i);
+        service.updateInteraction(_i, "");
         assertEquals("test update", service.getInteraction(id).getNote());
     }
 
@@ -165,9 +165,9 @@ public class InteractionRepositoryServiceTest {
         i1.setDoctor(testDoctor1);
         i2.setDoctor(testDoctor1);
         i3.setDoctor(testDoctor2);
-        Long id1 = service.addInteraction(i1);
-        Long id2 = service.addInteraction(i2);
-        Long id3 = service.addInteraction(i3);
+        Long id1 = service.addInteraction(i1, "");
+        Long id2 = service.addInteraction(i2, "");
+        Long id3 = service.addInteraction(i3, "");
 
         assertEquals(initialCount1+2, service.getDoctorInteractionCount(testDoctor1));
         assertEquals(initialCount2+1, service.getDoctorInteractionCount(testDoctor2));
@@ -194,10 +194,10 @@ public class InteractionRepositoryServiceTest {
         i3.getDiagnosis().add(testDisease2);
         i4.getDiagnosis().add(testDisease1);
         i4.getDiagnosis().add(testDisease2);
-        Long id1 = service.addInteraction(i1);
-        Long id2 = service.addInteraction(i2);
-        Long id3 = service.addInteraction(i3);
-        Long id4 = service.addInteraction(i4);
+        Long id1 = service.addInteraction(i1, "");
+        Long id2 = service.addInteraction(i2, "");
+        Long id3 = service.addInteraction(i3, "");
+        Long id4 = service.addInteraction(i4, "");
 
         assertEquals(initialCount1+2, service.getDiseaseDiagnoseCount(testDisease1));
         assertEquals(initialCount2+3, service.getDiseaseDiagnoseCount(testDisease2));

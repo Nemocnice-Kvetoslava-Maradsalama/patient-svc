@@ -17,39 +17,61 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class InteractionRepositoryService {
+    private final AuthorizationService authorizationService;
     private final DiseaseClient diseaseClient;
     private final DrugClient drugClient;
     private final InteractionDAO interactionDAO;
     private final PatientDAO patientDAO;
 
-    private void diagnose(Interaction i) {
-        // todo improve
-        SymptomsDTO symptoms = new SymptomsDTO();
-        symptoms.setSymptoms(new ArrayList<>());
-        for (Long symptomId : i.getSymptoms()) {
-            Symptom s = new Symptom();
-            s.setId(symptomId);
-            symptoms.getSymptoms().add(s);
-        }
+    private void diagnose(Interaction i, String token) {
+        if (i.getDiagnosis().isEmpty()) {
+            SymptomsDTO symptoms = new SymptomsDTO();
+            List<Symptom> symptomList = symptoms.getSymptoms();
 
-        List<Disease> diagnosis = diseaseClient.diagnose(symptoms);
+            for (Long symptomId : i.getSymptoms()) {
+                Symptom s = new Symptom(symptomId);
+                symptomList.add(s);
+            }
 
-        if (!diagnosis.isEmpty()) {
-            i.getDiagnosis().clear();
+            List<Disease> diagnosis = diseaseClient.diagnose(symptoms, token);
+            List<Long> diseaseList = i.getDiagnosis();
+
             for (Disease d : diagnosis) {
-                i.getDiagnosis().add(d.getId());
+                diseaseList.add(d.getId());
             }
         }
     }
 
-    private void prescribeDrugs(Interaction i) {
-        // todo
-        //i.getPrescriptions().clear();
+    private void prescribeDrugs(Interaction i, String token) {
+        if (i.getPrescriptions().isEmpty() && !i.getDiagnosis().isEmpty()) {
+            StringJoiner diseaseList = new StringJoiner(",");
+
+            for (Long diseaseId : i.getDiagnosis()) {
+                diseaseList.add(diseaseId.toString());
+            }
+
+            Map<String, Long> prescriptions = drugClient.suggestPrescription(diseaseList.toString(), token);
+            List<Long> interactionPrescriptions = i.getPrescriptions();
+
+            prescriptions.values().forEach(d -> {
+                if (!interactionPrescriptions.contains(d)) {
+                    interactionPrescriptions.add(d);
+                }
+            });
+        }
+    }
+
+    private void handleInteraction(Interaction i, String token) {
+        if (!authorizationService.validateDoctor(token)) {
+            throw new NotAuthorizedException();
+        }
+
+        diagnose(i, token);
+        prescribeDrugs(i, token);
     }
 
     @Transactional
@@ -75,19 +97,15 @@ public class InteractionRepositoryService {
     }
 
     @Transactional
-    public Long addInteraction(Interaction i) {
-        diagnose(i);
-        prescribeDrugs(i);
-
+    public Long addInteraction(Interaction i, String token) {
+        handleInteraction(i, token);
         interactionDAO.add(i);
         return i.getId();
     }
 
     @Transactional
-    public void updateInteraction(Interaction i) {
-        diagnose(i);
-        prescribeDrugs(i);
-
+    public void updateInteraction(Interaction i, String token) {
+        handleInteraction(i, token);
         interactionDAO.update(i);
     }
 
@@ -113,10 +131,12 @@ public class InteractionRepositoryService {
     }
 
     @Autowired
-    public InteractionRepositoryService(DiseaseClient diseaseClient,
+    public InteractionRepositoryService(AuthorizationService authorizationService,
+                                        DiseaseClient diseaseClient,
                                         DrugClient drugClient,
                                         InteractionDAO interactionDAO,
                                         PatientDAO patientDAO) {
+        this.authorizationService = authorizationService;
         this.drugClient = drugClient;
         this.diseaseClient = diseaseClient;
         this.interactionDAO = interactionDAO;

@@ -44,9 +44,8 @@ public class InteractionController {
         }
 
         validateToken(token);
-        validateDoctor(token);
 
-        return interactionService.addInteraction(interaction);
+        return interactionService.addInteraction(interaction, token);
     }
 
     @ApiOperation("Edits an interaction")
@@ -59,9 +58,8 @@ public class InteractionController {
         }
 
         validateToken(token);
-        validateDoctor(token);
 
-        interactionService.updateInteraction(interaction);
+        interactionService.updateInteraction(interaction, token);
     }
 
     @ApiOperation("Deletes an interaction")
@@ -108,12 +106,6 @@ public class InteractionController {
 
     private void validateToken(String token) {
         if (!authorizationService.validateUser(token)) {
-            throw new NotAuthorizedException();
-        }
-    }
-
-    private void validateDoctor(String token) {
-        if (!authorizationService.validateDoctor(token)) {
             throw new NotAuthorizedException();
         }
     }

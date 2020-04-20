@@ -50,7 +50,7 @@ public class PatientService {
 			i1.setSymptoms(Arrays.asList(1L, 2L));
 			i1.setPrescriptions(Collections.singletonList(1L));
 			i1.setDiagnosis(Collections.singletonList(1L));
-			interactionService.addInteraction(i1);
+			interactionService.addInteraction(i1, "");
 		}
 	}
 
