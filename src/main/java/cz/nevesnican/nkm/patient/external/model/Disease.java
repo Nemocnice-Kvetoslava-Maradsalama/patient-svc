@@ -58,4 +58,11 @@ public class Disease {
     public void setSymptoms(List<Symptom> symptoms) {
         this.symptoms = symptoms;
     }
+
+    public Disease() {
+    }
+
+    public Disease(Long id) {
+        this.id = id;
+    }
 }

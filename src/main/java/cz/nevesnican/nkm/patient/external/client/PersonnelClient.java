@@ -1,6 +1,5 @@
 package cz.nevesnican.nkm.patient.external.client;
 
-import cz.nevesnican.nkm.patient.external.model.DoctorDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
