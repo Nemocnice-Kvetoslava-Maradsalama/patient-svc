@@ -8,6 +8,8 @@ import cz.nevesnican.nkm.patient.service.security.AuthorizationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.logging.Logger;
@@ -36,7 +38,7 @@ public class InteractionController {
 
     @ApiOperation("Creates an interaction record")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Long addInteraction(@RequestBody @ApiParam(value = "interaction", required = true) Interaction interaction, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Long> addInteraction(@RequestBody @ApiParam(value = "interaction", required = true) Interaction interaction, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving addInteraction");
 
         if (interaction == null || interaction.getId() != null) {
@@ -45,12 +47,12 @@ public class InteractionController {
 
         validateToken(token);
 
-        return interactionService.addInteraction(interaction, token);
+        return new ResponseEntity<>(interactionService.addInteraction(interaction, token), HttpStatus.CREATED);
     }
 
     @ApiOperation("Edits an interaction")
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public void editInteraction(@RequestBody @ApiParam(value = "interaction", required = true) Interaction interaction, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Void> editInteraction(@RequestBody @ApiParam(value = "interaction", required = true) Interaction interaction, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving editInteraction");
 
         if (interaction == null || interaction.getId() == null) {
@@ -60,11 +62,13 @@ public class InteractionController {
         validateToken(token);
 
         interactionService.updateInteraction(interaction, token);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Deletes an interaction")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteInteraction(@PathVariable @ApiParam(value = "interaction id", required = true, example = "1") Long id, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Void> deleteInteraction(@PathVariable @ApiParam(value = "interaction id", required = true, example = "1") Long id, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving deleteInteraction");
 
         if (id == null) {
@@ -74,6 +78,8 @@ public class InteractionController {
         validateToken(token);
 
         interactionService.deleteInteraction(id);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Returns a number of interactions done by a specified doctor")

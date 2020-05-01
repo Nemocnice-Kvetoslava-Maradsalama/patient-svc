@@ -11,6 +11,8 @@ import cz.nevesnican.nkm.patient.service.security.AuthorizationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class PatientController {
 
     @ApiOperation("Creates a patient")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Long createPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Long> createPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving createPatient");
 
         if (p == null || p.getId() != null) {
@@ -67,12 +69,12 @@ public class PatientController {
 
         validateToken(token);
 
-        return patientService.createPatient(p);
+        return new ResponseEntity<>(patientService.createPatient(p), HttpStatus.CREATED);
     }
 
     @ApiOperation("Edits a patient")
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public void editPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Void> editPatient(@RequestBody @ApiParam(value = "patient", required = true) Patient p, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving editPatient");
 
         if (p == null || p.getId() == null) {
@@ -82,11 +84,13 @@ public class PatientController {
         validateToken(token);
 
         patientService.updatePatient(p);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Deletes a patient")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deletePatient(@PathVariable @ApiParam(value = "patient id", required = true, example = "1") Long id, @RequestHeader(value="Authorization") String token) {
+    public ResponseEntity<Void> deletePatient(@PathVariable @ApiParam(value = "patient id", required = true, example = "1") Long id, @RequestHeader(value="Authorization") String token) {
         LOG.info("serving deletePatient");
 
         if (id == null) {
@@ -96,6 +100,8 @@ public class PatientController {
         validateToken(token);
 
         patientService.deletePatient(id);
+
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Returns a list of patient interactions")
