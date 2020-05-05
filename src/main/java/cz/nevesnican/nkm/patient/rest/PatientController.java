@@ -35,11 +35,11 @@ public class PatientController {
                                      @RequestHeader(value="Authorization") String token) {
         LOG.info("serving getPatients");
 
+        validateToken(token);
+
         if (limit != null && offset != null) {
             return patientService.getPatients(limit, offset);
         }
-
-        validateToken(token);
 
         return patientService.getPatients();
     }
