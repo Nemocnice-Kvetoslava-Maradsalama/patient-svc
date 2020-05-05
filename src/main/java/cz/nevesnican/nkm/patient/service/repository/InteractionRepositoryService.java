@@ -55,8 +55,8 @@ public class InteractionRepositoryService {
                 diseaseList.add(diseaseId.toString());
             }
 
-            Map<String, List<Long>> prescriptions = drugClient.suggestPrescription(diseaseList.toString(), token);
-            List<Long> interactionPrescriptions = i.getPrescriptions();
+            Map<String, List<String>> prescriptions = drugClient.suggestPrescription(diseaseList.toString(), token);
+            List<String> interactionPrescriptions = i.getPrescriptions();
 
             prescriptions.values().forEach(dp -> dp.forEach(d -> {
                 if (!interactionPrescriptions.contains(d)) {

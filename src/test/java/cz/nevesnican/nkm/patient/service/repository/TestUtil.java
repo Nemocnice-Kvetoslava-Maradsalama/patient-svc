@@ -32,7 +32,7 @@ public class TestUtil {
         i.setPatient(p);
         i.setNote(randomString());
         i.setDoctor(1L);
-        i.setPrescriptions(Collections.singletonList(0L));
+        i.setPrescriptions(Collections.singletonList("1"));
         i.setDiagnosis(Collections.singletonList(0L));
         return i;
     }

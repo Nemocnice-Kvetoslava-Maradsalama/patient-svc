@@ -25,7 +25,7 @@ public class InteractionListDTO implements Serializable {
         return interaction.getSymptoms();
     }
 
-    public List<Long> getPrescriptions() {
+    public List<String> getPrescriptions() {
         return interaction.getPrescriptions();
     }
 

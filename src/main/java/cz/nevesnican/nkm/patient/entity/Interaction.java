@@ -24,7 +24,7 @@ public class Interaction implements NKMPatientEntity {
     private List<Long> symptoms = new ArrayList<>();
 
     @ElementCollection
-    private List<Long> prescriptions = new ArrayList<>();
+    private List<String> prescriptions = new ArrayList<>();
 
     @NotNull
     private Long doctor;
@@ -70,11 +70,11 @@ public class Interaction implements NKMPatientEntity {
         this.symptoms = symptoms;
     }
 
-    public List<Long> getPrescriptions() {
+    public List<String> getPrescriptions() {
         return prescriptions;
     }
 
-    public void setPrescriptions(List<Long> prescriptions) {
+    public void setPrescriptions(List<String> prescriptions) {
         this.prescriptions = prescriptions;
     }
 

@@ -68,9 +68,9 @@ public class InteractionIntegrationTest {
             assertTrue(interaction.getDiagnosis().contains(diseaseId));
         }
 
-        List<Long> expectedDrugs = Arrays.asList(2L, 3L, 4L, 5L);
+        List<String> expectedDrugs = Arrays.asList("5eaf1477b6851f496962de1f", "5eaf1477b6851f496962de2f", "5eaf1477b6851f496962de3f", "5eaf1477b6851f496962de4f");
         assertEquals(expectedDrugs.size(), interaction.getPrescriptions().size());
-        for (Long drugId : expectedDrugs) {
+        for (String drugId : expectedDrugs) {
             assertTrue(interaction.getPrescriptions().contains(drugId));
         }
     }
@@ -82,7 +82,7 @@ public class InteractionIntegrationTest {
         Interaction interaction = new Interaction();
         interaction.setDoctor(1L);
         interaction.setPatient(testPatient);
-        interaction.setPrescriptions(Arrays.asList(0L));
+        interaction.setPrescriptions(Arrays.asList("0"));
         interaction.setSymptoms(symptoms);
 
         String expectedResponse = Resources.toString(Resources.getResource("diagnose_response.json"), StandardCharsets.UTF_8);
@@ -157,9 +157,9 @@ public class InteractionIntegrationTest {
             assertTrue(interaction.getDiagnosis().contains(diseaseId));
         }
 
-        List<Long> expectedDrugs = Arrays.asList(2L, 3L, 4L, 5L);
+        List<String> expectedDrugs = Arrays.asList("5eaf1477b6851f496962de1f", "5eaf1477b6851f496962de2f", "5eaf1477b6851f496962de3f", "5eaf1477b6851f496962de4f");
         assertEquals(expectedDrugs.size(), interaction.getPrescriptions().size());
-        for (Long drugId : expectedDrugs) {
+        for (String drugId : expectedDrugs) {
             assertTrue(interaction.getPrescriptions().contains(drugId));
         }
     }

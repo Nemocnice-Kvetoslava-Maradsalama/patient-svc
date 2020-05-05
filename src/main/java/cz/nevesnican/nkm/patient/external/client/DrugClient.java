@@ -18,14 +18,14 @@ import java.util.logging.Logger;
 public interface DrugClient {
 
     @RequestMapping(value = "/drug/suggestPrescription/{diseases}", method = RequestMethod.GET)
-    Map<String, List<Long>> suggestPrescription(@PathVariable String diseases, @RequestHeader(value="Authorization") String token);
+    Map<String, List<String>> suggestPrescription(@PathVariable String diseases, @RequestHeader(value="Authorization") String token);
 
     @Component
     class DrugClientFallback implements DrugClient {
         private final static Logger LOG = Logger.getLogger(DrugClient.class.getName());
 
         @Override
-        public Map<String, List<Long>> suggestPrescription(String diseases, String token) {
+        public Map<String, List<String>> suggestPrescription(String diseases, String token) {
             LOG.severe("drug-svc is unavailable, cannot process suggestPrescription request");
             return Collections.emptyMap();
         }
