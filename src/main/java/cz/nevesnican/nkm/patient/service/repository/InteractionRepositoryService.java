@@ -8,7 +8,6 @@ import cz.nevesnican.nkm.patient.exception.EntityNotFoundException;
 import cz.nevesnican.nkm.patient.exception.NotAuthorizedException;
 import cz.nevesnican.nkm.patient.external.client.DiseaseClient;
 import cz.nevesnican.nkm.patient.external.client.DrugClient;
-import cz.nevesnican.nkm.patient.external.client.PersonnelClient;
 import cz.nevesnican.nkm.patient.external.model.Disease;
 import cz.nevesnican.nkm.patient.external.model.Symptom;
 import cz.nevesnican.nkm.patient.external.model.SymptomsDTO;
@@ -17,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 
 @Service
 public class InteractionRepositoryService {

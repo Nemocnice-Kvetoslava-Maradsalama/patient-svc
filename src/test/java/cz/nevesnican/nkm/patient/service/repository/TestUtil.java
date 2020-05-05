@@ -3,6 +3,7 @@ package cz.nevesnican.nkm.patient.service.repository;
 import cz.nevesnican.nkm.patient.entity.Interaction;
 import cz.nevesnican.nkm.patient.entity.Patient;
 
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -31,6 +32,8 @@ public class TestUtil {
         i.setPatient(p);
         i.setNote(randomString());
         i.setDoctor(1L);
+        i.setPrescriptions(Collections.singletonList(0L));
+        i.setDiagnosis(Collections.singletonList(0L));
         return i;
     }
 }

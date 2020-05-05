@@ -1,0 +1,40 @@
+[
+  {
+    "cures": [
+      0
+    ],
+    "description": "string",
+    "icd10": "string",
+    "id": 1,
+    "name": "string",
+    "symptoms": [
+      {
+        "description": "string",
+        "diseaseSymptoms": [
+          null
+        ],
+        "id": 0,
+        "name": "string"
+      }
+    ]
+  },
+  {
+    "cures": [
+      0
+    ],
+    "description": "string",
+    "icd10": "string",
+    "id": 2,
+    "name": "string",
+    "symptoms": [
+      {
+        "description": "string",
+        "diseaseSymptoms": [
+          null
+        ],
+        "id": 0,
+        "name": "string"
+      }
+    ]
+  }
+]

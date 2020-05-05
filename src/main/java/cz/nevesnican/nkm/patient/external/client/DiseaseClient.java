@@ -1,12 +1,14 @@
 package cz.nevesnican.nkm.patient.external.client;
 
 import cz.nevesnican.nkm.patient.external.model.Disease;
-import cz.nevesnican.nkm.patient.external.model.Symptom;
 import cz.nevesnican.nkm.patient.external.model.SymptomsDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Collections;
 import java.util.List;
