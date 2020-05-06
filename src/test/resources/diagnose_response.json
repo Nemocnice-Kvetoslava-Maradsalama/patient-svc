@@ -1,7 +1,7 @@
 [
   {
     "cures": [
-      0
+      "0", "1"
     ],
     "description": "string",
     "icd10": "string",
@@ -20,7 +20,7 @@
   },
   {
     "cures": [
-      0
+      "0", "1"
     ],
     "description": "string",
     "icd10": "string",

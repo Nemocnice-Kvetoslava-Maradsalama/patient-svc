@@ -9,13 +9,13 @@ public class Disease {
     private String icd10;
     private String description;
     private List<Symptom> symptoms;
-    private List<Long> cures;
+    private List<String> cures;
 
-    public List<Long> getCures() {
+    public List<String> getCures() {
         return cures;
     }
 
-    public void setCures(List<Long> cures) {
+    public void setCures(List<String> cures) {
         this.cures = cures;
     }
 
