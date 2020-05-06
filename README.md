@@ -7,7 +7,7 @@ Part of NKM project
 ## Building
 Prerequisites: jdk (java 8), apache maven
 
-To build this service, simply execute `mvn package` and grab the resulting jar from the target folder. You can also run `docker-compose build` afterwards.
+To build this service, simply execute `mvn package -DskipTests` and grab the resulting jar from the target folder. You can also run `docker-compose build` afterwards.
 
 ## Running
 You can start this service in docker by executing `docker-compose up`. This requires that a docker network named `nemocnice-network` is created beforehand. 
